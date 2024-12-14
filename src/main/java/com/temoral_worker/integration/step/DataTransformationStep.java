@@ -9,8 +9,10 @@ public class DataTransformationStep implements Step {
     private static final Logger logger = LoggerFactory.getLogger(DataTransformationStep.class);
 
     @Override
-    public void execute(Map<String, Object> stepDetails) {
+    public Map<String, Object> execute(Map<String, Object> stepDetails, Map<String, Object> context) {
         // Implement Data Transformation Logic
         logger.info("Transforming Data: {}", stepDetails);
+        context.put("DataTransformationStep", "done");
+        return context;
     }
 }

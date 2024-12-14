@@ -6,5 +6,5 @@ import io.temporal.workflow.WorkflowMethod;
 @WorkflowInterface
 public interface IntegrationWorkflow {
     @WorkflowMethod
-    void executeIntegration(String yamlConfig);
+    Object executeIntegration(String yamlConfig);
 }

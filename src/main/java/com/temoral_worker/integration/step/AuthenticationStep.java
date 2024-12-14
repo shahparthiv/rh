@@ -12,11 +12,13 @@ public class AuthenticationStep implements Step {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationStep.class);
 
     @Override
-    public void execute(Map<String, Object> stepDetails) {
+    public Map<String, Object> execute(Map<String, Object> stepDetails, Map<String, Object> context) {
         // Implement Authentication Logic
 
         AuthenticationMethod authMethod = AuthenticationFactory.getAuthenticationMethod(stepDetails.get("method").toString());
         authMethod.authenticate(stepDetails);
         logger.info("Authenticated using : {}", stepDetails.get("method"));
+        context.put("AuthenticationStep", "done");
+        return context;
     }
 }

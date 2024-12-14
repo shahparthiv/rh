@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.Yaml;
 
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,28 +18,11 @@ public class IntegrationWorkflowImpl implements IntegrationWorkflow {
             .setStartToCloseTimeout(Duration.ofMinutes(1))
             .build();
 
-    public Object execute(EncodedValues args) {
-        String yamlConfig = args.get(0, String.class);
-
-        Yaml yaml = new Yaml();
-        Map<String, Object> config = yaml.load(yamlConfig);
-
-        // Extract steps from YAML
-        List<Map<String, Object>> steps = (List<Map<String, Object>>) config.get("steps");
-
-        // Execute each step
-        for (Map<String, Object> step : steps) {
-            String stepType = (String) step.get("step_type");
-            ActivityStub ac = Workflow.newUntypedActivityStub(options);
-            ac.execute(stepType, Map.class, step);
-        }
-        return null;
-    }
-
     @Override
-    public void executeIntegration(String yamlConfig) {
+    public Object executeIntegration(String yamlConfig) {
         Yaml yaml = new Yaml();
         Map<String, Object> config = yaml.load(yamlConfig);
+        Map<String, Object> context = new HashMap<>();
 
 
         // Extract steps from YAML
@@ -60,7 +44,9 @@ public class IntegrationWorkflowImpl implements IntegrationWorkflow {
         for (Map<String, Object> step : steps) {
             String stepType = (String) step.get("step_type");
             ActivityStub ac = Workflow.newUntypedActivityStub(options);
-            ac.execute(stepType, Map.class, step.get("details"));
+            //ac.execute(stepType, Map.class, step.get("details"));
+            context = ac.execute(stepType, Map.class, step.get("details"), context);
         }
+        return context;
     }
 }

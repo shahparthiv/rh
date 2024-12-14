@@ -10,8 +10,10 @@ public class HttpRequestStep implements Step {
     private static final Logger logger = LoggerFactory.getLogger(HttpRequestStep.class);
 
     @Override
-    public void execute(Map<String, Object> stepDetails) {
+    public Map<String, Object> execute(Map<String, Object> stepDetails, Map<String, Object> context) {
         // Implement HTTP Request Logic
         logger.info("Performing HTTP Request: {}", stepDetails);
+        context.put("HttpRequestStep", "done");
+        return context;
     }
 }

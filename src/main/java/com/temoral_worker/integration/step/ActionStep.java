@@ -13,11 +13,13 @@ public class ActionStep implements Step {
     private static final Logger logger = LoggerFactory.getLogger(ActionStep.class);
 
     @Override
-    public void execute(Map<String, Object> stepDetails) {
+    public Map<String, Object> execute(Map<String, Object> stepDetails, Map<String, Object> context) {
         // Implement Action Logic
         ActionStepDetails actionStepDetails = MapperUtil.mapToObject(stepDetails, ActionStepDetails.class);
         ActionType actionType = ActionFactory.getActionType(actionStepDetails.getActionType());
         actionType.execute(stepDetails);
         logger.info("Executed Action: {}", stepDetails.get("action_type"));
+        context.put("ActionStep", "done");
+        return context;
     }
 }

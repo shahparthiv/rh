@@ -11,13 +11,14 @@ import java.util.Map;
 public class IntegrationActivitiesImpl implements DynamicActivity {
 
     @Override
-    public Object execute(EncodedValues args) {
+    public Map<String, Object> execute(EncodedValues args) {
         Map<String, Object> stepDetails = args.get(0, Map.class);
+        Map<String, Object> context = args.get(1, Map.class);
         String stepType = Activity.getExecutionContext().getInfo().getActivityType();
         Step step = StepFactory.getHandler(stepType);
 
-        step.execute(stepDetails);
+        Map<String, Object> returnContext = step.execute(stepDetails, context);
 
-        return null;
+        return returnContext;
     }
 }
