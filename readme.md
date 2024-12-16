@@ -121,7 +121,7 @@ Ensure the following tools are installed:
 - **Git**: Version control system
 - **YAML Configuration**: Required for defining workflows.
 
-******
+---
 
 
 Set Up Temporal Server
@@ -135,7 +135,7 @@ You can varify using following URL:
 ```
 http://localhost:8233/
 ```
-***
+---
 
 
 Clone the Repository
@@ -146,7 +146,7 @@ Clone the Repository
 git clone https://github.com/shahparthiv/rh.git
 cd rh
 ```
-***
+---
 
 Build the project
 ---
@@ -154,7 +154,7 @@ Build the project
 ```bash
 ./mvnw clean package
 ```
-***
+---
 
 Run the application server
 ----
@@ -163,7 +163,8 @@ Run the application server
 ./mvnw spring-boot:run
 ```
 The application server will start on 8080 port.
-****
+
+---
 
 
 Run the temporal worker
@@ -172,7 +173,7 @@ Run the temporal worker
 ```bash
  ./mvnw exec:java -Dexec.mainClass="com.temoral_worker.integration.executor.IntegrationExecutor"
 ```
-****
+---
 
 
 
