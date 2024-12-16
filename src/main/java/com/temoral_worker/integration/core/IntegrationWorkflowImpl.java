@@ -41,7 +41,6 @@ public class IntegrationWorkflowImpl implements IntegrationWorkflow {
             context = ac.execute(stepType, Map.class, step.get("details"), context);
         }
 
-        logger.info("Integration Workflow Completed Successfully.");
         return context;
     }
 }

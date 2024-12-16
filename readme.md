@@ -178,19 +178,24 @@ Workflow Execution Logs
 --------------------------
 
 <pre>
-<span style="color: grey;">13:18:29.233 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.strategy.authentication.APIKeyAuthentication</span> -- Authenticating to <span style="color: orange;">https://api.crowdstrike.com</span> with API Key: {{CROWDSTRIKE_API_KEY}}
-<span style="color: grey;">13:18:29.233 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.AuthenticationStep</span> -- Authentication step completed successfully.
-<span style="color: grey;">13:18:29.252 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.HttpRequestStep</span> -- Performing HTTP Request:
-<span style="color: grey;">13:18:29.252 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.HttpRequestStep</span> -- HTTP Request step completed successfully.
-<span style="color: grey;">13:18:29.263 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.DataTransformationStep</span> -- Performing DataTransformationStep
-<span style="color: grey;">13:18:29.263 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.DataTransformationStep</span> -- DataTransformationStep step completed successfully.
-<span style="color: grey;">13:18:29.305 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.ActionStep</span> -- Executed Action: <span style="color: orange;">Send Email</span>
-<span style="color: grey;">13:18:29.305 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.strategy.action.SendEmailAction</span> -- Sending email via send email action to <span style="color: orange;">[{{email}}]</span>:
-<span style="color: grey;">13:18:29.305 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.ActionStep</span> -- ActionStep completed successfully.
-<span style="color: grey;">13:18:29.319 [workflow-method-rh-workflow-b8638d51-292d-4d8f-9e82-72792effcf40] INFO</span> <span style="color: green;">com.temoral_worker.integration.core.IntegrationWorkflowImpl</span> -- <span style="color: limegreen; font-weight: bold;">Integration Workflow Completed Successfully.</span>
+14:48:04.157 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.strategy.authentication.APIKeyAuthentication -- Authenticating to https://api.crowdstrike.com with API Key: {{CROWDSTRIKE_API_KEY}}
+14:48:04.157 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.AuthenticationStep -- Authentication step completed successfully.
+14:48:04.176 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.HttpRequestStep -- Performing HTTP Request:
+14:48:04.176 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.HttpRequestStep -- HTTP Request step completed successfully.
+14:48:04.188 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.DataTransformationStep -- Performing DataTransformationStep
+14:48:04.188 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.DataTransformationStep -- DataTransformationStep step completed successfully.
+14:48:04.241 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.ActionStep -- Executed Action: Send Email
+14:48:04.241 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.strategy.action.SendEmailAction -- Sending email via send email action to [{{email}}]: 
+14:48:04.241 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO com.temoral_worker.integration.step.ActionStep -- ActionStep completed successfully.
+
 </pre>
 
 * * * * *
+
+## Temporal UI for the workflow
+In the following screenshot once can see all the activity as a step and time taken by each activity.
+![SS-Temporal-UI.png](SS-Temporal-UI.png)
+
 
 Project Structure
 --------------------
@@ -211,6 +216,8 @@ demo/
 │   │   │   │   │   │   ├── IntegrationWorkflow.java
 │   │   │   │   │   │   ├── IntegrationWorkflowImpl.java
 │   │   │   │   │   │   └── IntegrationActivitiesImpl.java
+│   │   │   │   │   ├── executor/ # This will start the worker
+│   │   │   │   │   │   └── IntegrationExecutor.java
 │   │   │   │   │   ├── step/
 │   │   │   │   │   │   ├── Step.java
 │   │   │   │   │   │   ├── AuthenticationStep.java
