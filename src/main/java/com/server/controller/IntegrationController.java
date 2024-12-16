@@ -1,4 +1,4 @@
-package com.server.demo.controller;
+package com.server.controller;
 
 import com.temoral_worker.integration.core.IntegrationWorkflow;
 import io.temporal.client.WorkflowClient;

@@ -1,4 +1,4 @@
-package com.server.demo;
+package com.server;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

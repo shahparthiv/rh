@@ -188,8 +188,8 @@ demo/
 │   ├── main/
 │   │   ├── java/
 │   │   │   ├── com/
-│   │   │   │   ├── server/demo/   # Application package
-│   │   │   │   │   ├── DemoApplication.java
+│   │   │   │   ├── server         # Application package
+│   │   │   │   │   ├── IntegrationEngine.java
 │   │   │   │   │   ├── controller/
 │   │   │   │   │   │   └── IntegrationController.java
 │   │   │   │   ├── temoral_worker/integration/  # Core Temporal workflows
