@@ -63,7 +63,7 @@ High Level Architecture
   A long-running process that executes workflow and activity code.
   Workers are flexible and can run specific tasks across different machines or environments.
 
-## Why Use Temporal.io?
+### Why Use Temporal.io?
 
 We can also use the same code with few modification and can run without temporal.io but I have included it for following reason.
 [Temporal.io](https://temporal.io/) is a scalable and reliable workflow orchestration platform. Here are the key benefits:
