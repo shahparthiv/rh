@@ -1,188 +1,181 @@
-RH Integration Service
-======================
+🌟 RH Integration Service
+=========================
+
+* * * * *
 
 Overview
---------
+-----------
 
-The **RH Integration Service** is a Spring Boot application designed to handle YAML-based configurations and execute a series of integration steps using Temporal workflows. It facilitates seamless integration processes by defining and executing steps such as authentication, data transformation, HTTP requests, and actions.
-
-* * * * *
-
-Features
---------
-
--   **YAML Configuration Management**: Parses and manages YAML files to define integration workflows.
--   **Modular Workflow Execution**: Utilizes Temporal workflows to execute a series of defined steps.
--   **Extensible Step Definitions**: Supports various steps including authentication, data transformation, HTTP requests, and custom actions.
--   **RESTful API**: Provides endpoints to interact with the service and manage workflows.
+The **RH Integration Service** is a powerful Spring Boot application designed to process YAML-based configurations and execute **integration workflows** using Temporal.io.\
+It streamlines processes like **authentication**, **data transformation**, **HTTP requests**, and **actions**, ensuring flexibility and scalability.
 
 * * * * *
 
-High Level Architecture
---------
+✨ Features
+----------
 
-Below is the high-level architecture of the system:
+-   **YAML Configuration Management**: Parses and processes workflows defined in YAML files.
+-   **Modular Workflow Execution**: Uses Temporal workflows for seamless task orchestration.
+-   **Extensible Step Definitions**: Supports dynamic steps (authentication, HTTP requests, actions).
+-   **RESTful API**: Exposes endpoints to trigger and manage workflows.
 
-High Level Architecture
+* * * * *
+
+🏗 High-Level Architecture
+--------------------------
+
 ![High Level Architecture](IntegrationEngine.jpg "High Level Architecture")
 
 ### Explanation of the Architecture
 
-1. **Client**
-   - Submits a request to execute a workflow through the application server.
+1.  **🧑‍💻 Client**
 
-2. **Application Server**
-   - Handles the `/runIntegration` endpoint.
-   - Submits the workflow definition (e.g., YAML) to the **Temporal Server**.
+    -   Submits a request to execute a workflow via the **Application Server**.
+2.  **🖥 Application Server**
 
-3. **Temporal Server**
-   - Orchestrates workflows, manages states, and schedules tasks into the **Task Queue**.
-   - **Note**: It does not execute the actual workflow code.
+    -   Handles `/runIntegration` endpoint requests.
+    -   Submits the workflow definition (YAML) to the **Temporal Server**.
+3.  **⚙️ Temporal Server**
 
-4. **Task Queue**
-   - Temporarily stores tasks, such as workflow tasks or activity tasks.
-   - Workers poll the task queue to pick up tasks.
+    -   Orchestrates workflows, stores states, and schedules tasks into the **Task Queue**.
+4.  **🗂 Task Queue**
 
-5. **Worker**
-   - Picks tasks from the queue and executes workflow/activity code.
-   - The worker performs the following tasks:
-   - Parsing YAML to extract workflow definitions.
-   - Creating a list of steps using **Factory** and **Strategy** patterns.
-   - Running each step as an activity.
-   - Allowing each activity to run on different workers for scalability.
+    -   Stores pending workflow and activity tasks.
+    -   **Workers** poll and pick up tasks for execution.
+5.  **💼 Worker**
 
-### Key Components
-
-- **Temporal Server**:
-  Responsible for orchestrating workflows and managing states but does not execute any actual business logic.
-
-- **Task Queue**:
-  Stores tasks (workflow tasks or activity tasks) that workers can pick up for execution.
-
-- **Worker**:
-  A long-running process that executes workflow and activity code.
-  Workers are flexible and can run specific tasks across different machines or environments.
-
-### Why Use Temporal.io?
-
-We can also use the same code with few modification and can run without temporal.io but I have included it for following reason.
-[Temporal.io](https://temporal.io/) is a scalable and reliable workflow orchestration platform. Here are the key benefits:
-
-
-
-1.  **Stateful Workflow Management**: Retains the state of workflows, ensuring reliability even after crashes.
-2.  **Retry Logic**: Automatically retries failed activities.
-3.  **Durability**: Ensures long-running workflows persist their execution history.
-4.  **Scalability**: Handles thousands of workflows concurrently.
-5.  **Timeouts and Heartbeats**: Provides robust failure detection and handling.
+    -   Executes tasks such as:
+        -   Parsing YAML.
+        -   Creating steps using **Factory** and **Strategy patterns**.
+        -   Executing each step as an activity on distributed workers.
 
 * * * * *
 
+🌐 Why Use Temporal.io?
+-----------------------
 
-Low Level Architecture
--------------------------------------
-![LLD.png](LLD.png)
+> With a few modifications, the project could run without Temporal.io. However, Temporal brings significant advantages:
 
+-   **Stateful Workflow Management**: Automatically persists workflow state.
+-   **Retry Logic**: Handles automatic retries for failed activities.
+-   **Durability**: Ensures workflows survive crashes and long downtimes.
+-   **Scalability**: Executes thousands of workflows concurrently.
+-   **Timeouts & Heartbeats**: Robust failure detection and handling.
 
-### Explanation of the Low Level Architecture
-
-### OOP Principles
-
-1.  **Encapsulation**: Classes like `IntegrationWorkflow` and `Step` hide their details behind clean APIs.
-2.  **Abstraction**: Interfaces like `Step` and `IntegrationWorkflow` define contracts, hiding implementation specifics.
-3.  **Polymorphism**: Step classes implement the `Step` interface, providing interchangeable behaviors.
-4.  **Inheritance**: Common properties are shared among POJO classes, such as step details.
-
-### Design Patterns
-
-1.  **Factory Pattern**: Used in `StepFactory` to instantiate step implementations dynamically.
-2.  **Strategy Pattern**: Handles variations in authentication (`APIKeyAuthentication`, `OAuthAuthentication`) and actions (`SendEmailAction`, `SendSlackAction`).
-3.  **Template Method**: Used in steps where a common template defines execution flow.
+Learn more at [Temporal.io](https://temporal.io/).
 
 * * * * *
 
+🔍 Low-Level Architecture
+-------------------------
 
-## Configuration and Installation
+![Low Level Design](LLD.png)
 
+### 🛠 Design Principles
 
-### Pre-requisites
+**Object-Oriented Programming Principles**:
 
+1.  **Encapsulation**: Classes like `IntegrationWorkflow` and `Step` hide implementation details.
+2.  **Abstraction**: Interfaces such as `Step` define contracts for steps.
+3.  **Polymorphism**: Step classes (e.g., `AuthenticationStep`, `HttpRequestStep`) implement the `Step` interface.
+4.  **Inheritance**: Shared attributes exist in `StepDetails` classes.
+
+**Design Patterns**:
+
+1.  **Factory Pattern**:
+
+    -   Dynamically creates steps using `StepFactory`.
+2.  **Strategy Pattern**:
+
+    -   Varies behavior for authentication and actions.
+    -   E.g., `APIKeyAuthentication`, `SendEmailAction`.
+3.  **Template Method**:
+
+    -   Defines a common step execution template.
+
+* * * * *
+
+⚙️ Configuration and Installation
+---------------------------------
+
+### **Pre-requisites**
 
 Ensure the following tools are installed:
 
-- **Java**: Version 17 or higher
-- **Maven**: Version 3.4 or higher
-- **Temporal Server**: A running Temporal server instance.
-    - Install Temporal server locally:
-      ```bash
-      brew install temporal
-      ```
+-   **Java**: Version 17 or higher
+-   **Maven**: Version 3.4 or higher
+-   **Temporal Server**: Installed locally
+    ```bash
+    brew install temporal
+    ```
+-   **Git**: Version control system
+-   **YAML Configuration**: Workflow definitions
 
-- **Git**: Version control system
-- **YAML Configuration**: Required for defining workflows.
+* * * * *
 
----
+### **Set Up Temporal Server**
 
+Start the Temporal Server locally:
 
-### Set Up Temporal Server
+`temporal server start-dev`
 
-Ensure Temporal Server is running.
+Verify the server:
 
-```bash
-temporal server start-dev
-```
-You can varify using following URL:
-```
-http://localhost:8233/
-```
----
+`http://localhost:8233/`
 
+* * * * *
 
-### Clone the Repository
-
-
+### **Clone the Repository**
 
 ```bash
 git clone https://github.com/shahparthiv/rh.git
 cd rh
 ```
----
 
-### Build the project
+* * * * *
+
+### **Build the Project**
 
 
 ```bash
 ./mvnw clean package
 ```
----
 
-### Run the application server
+* * * * *
+
+### **Run the Application Server**
 
 ```bash
 ./mvnw spring-boot:run
 ```
-The application server will start on 8080 port.
 
----
+**The application server will start on port 8080.**
 
+* * * * *
 
-### Run the temporal worker
-This will run the worker as a separate service and all the activities will be running here
+### **Run the Temporal Worker**
+
+The worker service runs separately to execute all activities:
 
 ```bash
- ./mvnw exec:java -Dexec.mainClass="com.temoral_worker.integration.executor.IntegrationExecutor"
+./mvnw exec:java -Dexec.mainClass="com.temoral_worker.integration.executor.IntegrationExecutor"
 ```
----
 
-### Trigger the workflow engine via following curl command
 
-```bash
+* * * * *
+
+### **Trigger the Workflow**
+
+Use the following `curl` command to trigger the integration engine:
+
+```
 curl http://localhost:8080/runIntegrarion
 ```
----
 
+* * * * *
 
-### Workflow Execution Logs
+Workflow Execution Logs
+--------------------------
 
 <pre>
 <span style="color: grey;">13:18:29.233 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.strategy.authentication.APIKeyAuthentication</span> -- Authenticating to <span style="color: orange;">https://api.crowdstrike.com</span> with API Key: {{CROWDSTRIKE_API_KEY}}
@@ -197,14 +190,14 @@ curl http://localhost:8080/runIntegrarion
 <span style="color: grey;">13:18:29.319 [workflow-method-rh-workflow-b8638d51-292d-4d8f-9e82-72792effcf40] INFO</span> <span style="color: green;">com.temoral_worker.integration.core.IntegrationWorkflowImpl</span> -- <span style="color: limegreen; font-weight: bold;">Integration Workflow Completed Successfully.</span>
 </pre>
 
-
+* * * * *
 
 Project Structure
------------------
+--------------------
+
 
 ```
 demo/
-├── .git/                          # Git configuration and objects
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -245,4 +238,11 @@ demo/
 └── readme.md                      # Project documentation
 
 ```
+* * * * *
+
+🎯 Conclusion
+-------------
+
+The **RH Integration Service** leverages Temporal.io to manage workflows efficiently, combining design patterns and modular principles to ensure scalability, maintainability, and flexibility.
+
 * * * * *
