@@ -10,9 +10,12 @@ public class DataTransformationStep implements Step {
 
     @Override
     public Map<String, Object> execute(Map<String, Object> stepDetails, Map<String, Object> context) {
+
+        logger.info("Performing DataTransformationStep");
+
         // Implement Data Transformation Logic
-        logger.info("Transforming Data: {}", stepDetails);
         context.put("DataTransformationStep", "done");
+        logger.info("DataTransformationStep step completed successfully.");
         return context;
     }
 }

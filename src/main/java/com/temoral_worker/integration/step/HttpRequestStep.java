@@ -11,9 +11,14 @@ public class HttpRequestStep implements Step {
 
     @Override
     public Map<String, Object> execute(Map<String, Object> stepDetails, Map<String, Object> context) {
+
+        logger.info("Performing HTTP Request:");
+
         // Implement HTTP Request Logic
-        logger.info("Performing HTTP Request: {}", stepDetails);
+
+
         context.put("HttpRequestStep", "done");
+        logger.info("HTTP Request step completed successfully.");
         return context;
     }
 }

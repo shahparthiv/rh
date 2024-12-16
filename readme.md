@@ -105,8 +105,8 @@ Low Level Architecture
 ## Configuration and Installation
 
 
-Pre-requisites
------------------
+### Pre-requisites
+
 
 Ensure the following tools are installed:
 
@@ -124,8 +124,8 @@ Ensure the following tools are installed:
 ---
 
 
-Set Up Temporal Server
---------
+### Set Up Temporal Server
+
 Ensure Temporal Server is running.
 
 ```bash
@@ -138,8 +138,8 @@ http://localhost:8233/
 ---
 
 
-Clone the Repository
----------
+### Clone the Repository
+
 
 
 ```bash
@@ -148,16 +148,15 @@ cd rh
 ```
 ---
 
-Build the project
----
+### Build the project
+
 
 ```bash
 ./mvnw clean package
 ```
 ---
 
-Run the application server
-----
+### Run the application server
 
 ```bash
 ./mvnw spring-boot:run
@@ -167,14 +166,36 @@ The application server will start on 8080 port.
 ---
 
 
-Run the temporal worker
----
+### Run the temporal worker
+This will run the worker as a separate service and all the activities will be running here
 
 ```bash
  ./mvnw exec:java -Dexec.mainClass="com.temoral_worker.integration.executor.IntegrationExecutor"
 ```
 ---
 
+### Trigger the workflow engine via following curl command
+
+```bash
+curl http://localhost:8080/runIntegrarion
+```
+---
+
+
+### Workflow Execution Logs
+
+<pre>
+<span style="color: grey;">13:18:29.233 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.strategy.authentication.APIKeyAuthentication</span> -- Authenticating to <span style="color: orange;">https://api.crowdstrike.com</span> with API Key: {{CROWDSTRIKE_API_KEY}}
+<span style="color: grey;">13:18:29.233 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.AuthenticationStep</span> -- Authentication step completed successfully.
+<span style="color: grey;">13:18:29.252 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.HttpRequestStep</span> -- Performing HTTP Request:
+<span style="color: grey;">13:18:29.252 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.HttpRequestStep</span> -- HTTP Request step completed successfully.
+<span style="color: grey;">13:18:29.263 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.DataTransformationStep</span> -- Performing DataTransformationStep
+<span style="color: grey;">13:18:29.263 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.DataTransformationStep</span> -- DataTransformationStep step completed successfully.
+<span style="color: grey;">13:18:29.305 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.ActionStep</span> -- Executed Action: <span style="color: orange;">Send Email</span>
+<span style="color: grey;">13:18:29.305 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.strategy.action.SendEmailAction</span> -- Sending email via send email action to <span style="color: orange;">[{{email}}]</span>:
+<span style="color: grey;">13:18:29.305 [Activity Executor taskQueue="rh-task-queue", namespace="default": 1] INFO</span> <span style="color: green;">com.temoral_worker.integration.step.ActionStep</span> -- ActionStep completed successfully.
+<span style="color: grey;">13:18:29.319 [workflow-method-rh-workflow-b8638d51-292d-4d8f-9e82-72792effcf40] INFO</span> <span style="color: green;">com.temoral_worker.integration.core.IntegrationWorkflowImpl</span> -- <span style="color: limegreen; font-weight: bold;">Integration Workflow Completed Successfully.</span>
+</pre>
 
 
 

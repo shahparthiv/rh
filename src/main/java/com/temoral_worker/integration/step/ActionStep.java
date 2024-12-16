@@ -17,9 +17,12 @@ public class ActionStep implements Step {
         // Implement Action Logic
         ActionStepDetails actionStepDetails = MapperUtil.mapToObject(stepDetails, ActionStepDetails.class);
         ActionType actionType = ActionFactory.getActionType(actionStepDetails.getActionType());
-        actionType.execute(stepDetails);
+
         logger.info("Executed Action: {}", stepDetails.get("action_type"));
+        actionType.execute(stepDetails);
+
         context.put("ActionStep", "done");
+        logger.info("ActionStep completed successfully.");
         return context;
     }
 }

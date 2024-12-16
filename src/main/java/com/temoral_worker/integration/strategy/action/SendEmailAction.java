@@ -13,6 +13,9 @@ public class SendEmailAction implements ActionType {
     public void execute(Map<String, Object> details) {
 
         List<String> recipients = (List<String>) details.get("recipients");
+
+        // implement the logic to send the email
+
         logger.info("Sending email via send email action to {}: ", recipients);
 
     }

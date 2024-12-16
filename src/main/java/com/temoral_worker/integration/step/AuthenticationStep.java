@@ -17,8 +17,8 @@ public class AuthenticationStep implements Step {
 
         AuthenticationMethod authMethod = AuthenticationFactory.getAuthenticationMethod(stepDetails.get("method").toString());
         authMethod.authenticate(stepDetails);
-        logger.info("Authenticated using : {}", stepDetails.get("method"));
         context.put("AuthenticationStep", "done");
+        logger.info("Authentication step completed successfully.");
         return context;
     }
 }
