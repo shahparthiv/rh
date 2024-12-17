@@ -27,30 +27,36 @@ public class IntegrationController {
     @GetMapping("/runIntegrarion")
     public String rh() throws IOException {
 
+        try{
+            logger.info("Hello {}","RH");
+            // Make an HTTP call to downstream service with the custom headers
 
-        logger.info("Hello {}","RH");
-        // Make an HTTP call to downstream service with the custom headers
-
-        //We can have a code get the file from client but as of now I have added the yaml file in resource directory.
-        // We can write logic to validate the yml file. In this type of feature validation is very crucial task as
-        // the whole integration is dependent on it.
-        String ymlConfig = loadYamlConfig("rh/cs.yml");
-
-
-        WorkflowServiceStubs service = WorkflowServiceStubs.newLocalServiceStubs();
-        WorkflowClient client = WorkflowClient.newInstance(service);
+            //We can have a code get the file from client but as of now I have added the yaml file in resource directory.
+            // We can write logic to validate the yml file. In this type of feature validation is very crucial task as
+            // the whole integration is dependent on it.
+            String ymlConfig = loadYamlConfig("rh/cs.yml");
 
 
-        IntegrationWorkflow workflow =
-                client.newWorkflowStub(
-                        IntegrationWorkflow.class,
-                        WorkflowOptions.newBuilder()
-                                .setWorkflowId("rh-workflow")
-                                .setTaskQueue("rh-task-queue")
-                                .build());
+            WorkflowServiceStubs service = WorkflowServiceStubs.newLocalServiceStubs();
+            WorkflowClient client = WorkflowClient.newInstance(service);
 
-        WorkflowClient.start(workflow::executeIntegration, ymlConfig);
 
-        return "Integration submitted successfully";
+            IntegrationWorkflow workflow =
+                    client.newWorkflowStub(
+                            IntegrationWorkflow.class,
+                            WorkflowOptions.newBuilder()
+                                    // we can also set the dynamic Ids
+                                    // to run multiple workflows
+                                    .setWorkflowId("rh-workflow")
+                                    .setTaskQueue("rh-task-queue")
+                                    .build());
+
+            WorkflowClient.start(workflow::executeIntegration, ymlConfig);
+
+            return "Integration submitted successfully";
+
+        }catch(Exception e){
+            return "Something went wrong!";
+        }
     }
 }

@@ -92,6 +92,7 @@ Learn more at [Temporal.io](https://temporal.io/).
 3.  **Template Method**:
 
     -   Defines a common step execution template.
+    -   Here we have the `Step` interface where we one can define the execution flow for each step.
 
 * * * * *
 
