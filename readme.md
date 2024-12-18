@@ -167,7 +167,7 @@ The worker service runs separately to execute all activities:
 
 ### **Trigger the Workflow**
 
-Use the following `curl` command to trigger the integration engine:
+Use the following `curl` command to trigger the integration engine. It will pick the yml file from resources/rh directory and run the engine.
 
 ```
 curl http://localhost:8080/runIntegrarion
