@@ -252,5 +252,6 @@ demo/
 -------------
 
 The **RH Integration Service** leverages Temporal.io to manage workflows efficiently, combining design patterns and modular principles to ensure scalability, maintainability, and flexibility.
+If we want to leverage server less architecture the same thing can be also achieved by AWS Step function.
 
 * * * * *
